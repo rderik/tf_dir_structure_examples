@@ -9,15 +9,15 @@ provider "aws" {
   }
 }
 
-terraform {
-  backend "s3" {
-    region         = "us-west-2"
-    bucket         = "rderik-tfstate"
-    key            = "shared/tfstate/terraform.tfstate"
-    dynamodb_table = "rderik-tfstate"
-    encrypt        = true
-  }
-}
+#terraform {
+  #backend "s3" {
+    #region         = "us-west-2"
+    #bucket         = "rderik-tfstate"
+    #key            = "shared/tfstate/terraform.tfstate"
+    #dynamodb_table = "rderik-tfstate"
+    #encrypt        = true
+  #}
+#}
 
 resource "aws_s3_bucket" "tf_state" {
   bucket = "rderik-tfstate"

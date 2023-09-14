@@ -8,7 +8,12 @@ variable "project_id" {
   type        = string
 }
 
-variable "index_file" {
-  description = "Path to index.html File"
+variable "domain_name" {
+  description = "Origin domain name"
+  type        = string
+}
+
+variable "origin_id" {
+  description = "Origin id"
   type        = string
 }

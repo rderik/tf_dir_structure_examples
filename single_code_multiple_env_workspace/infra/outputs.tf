@@ -6,6 +6,6 @@ output "s3_website_domain" {
   value = module.static_site_bucket.website_domain_name
 }
 
-output "domain_name" {
-  value = module.distribution.domain_name
+output "cloudfront_distribution_id" {
+  value     = var.environment == "prod" ? module.distribution[0].domain_name : "not-available"
 }

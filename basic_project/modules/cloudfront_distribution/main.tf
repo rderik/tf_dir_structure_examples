@@ -1,37 +1,7 @@
-locals {
-  project = "rderik"
-}
-
-resource "aws_s3_bucket" "static_site" {
-  bucket = "${local.project}-my-static-site-bucket-${var.environment}"
-}
-resource "aws_s3_bucket_website_configuration" "static_site" {
-  bucket = aws_s3_bucket.static_site.id
-
-  index_document {
-    suffix = "index.html"
-  }
-
-  error_document {
-    key = "error.html"
-  }
-
-  routing_rule {
-    condition {
-      key_prefix_equals = "docs/"
-    }
-    redirect {
-      replace_key_prefix_with = "documents/"
-    }
-  }
-}
-
 resource "aws_cloudfront_distribution" "s3_distribution" {
-  count = var.environment == "prod" ? 1 : 0
-
   origin {
-    domain_name = aws_s3_bucket.static_site.bucket_regional_domain_name
-    origin_id   = aws_s3_bucket.static_site.bucket
+    domain_name = var.domain_name
+    origin_id   = var.origin_id
 
     s3_origin_config {
       origin_access_identity = ""
@@ -46,7 +16,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = aws_s3_bucket.static_site.bucket
+    target_origin_id = var.origin_id
 
     forwarded_values {
       query_string = false
@@ -73,4 +43,5 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   viewer_certificate {
     cloudfront_default_certificate = true
   }
+
 }

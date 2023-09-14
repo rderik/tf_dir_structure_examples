@@ -4,7 +4,6 @@ provider "aws" {
   default_tags { # Update your default tags with your own values
     tags = {
       Application = var.project_id
-      Environment = var.environment
     }
   }
 }
@@ -13,7 +12,7 @@ provider "aws" {
   #backend "s3" {
     #region         = "us-west-2"
     #bucket         = "rderik-tfstate"
-    #key            = "dev/tfstate/terraform.tfstate"
+    #key            = "prod/tfstate/terraform.tfstate"
     #dynamodb_table = "rderik-tfstate"
     #encrypt        = true
   #}
